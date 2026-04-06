@@ -1,0 +1,4 @@
+# settings.toml
+CIRCUITPY_WIFI_SSID = "FilamentFactory"
+CIRCUITPY_WIFI_PASSWORD = "EasySquash496*"
+OCTOPRINT_API_KEY = "RjuK6lLFwuMlxcZa5DRi1u2Q9r4YoDCrr4T6j2RS_ak"
