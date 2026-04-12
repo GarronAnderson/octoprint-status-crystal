@@ -1,16 +1,17 @@
 # Octoprint Status Lamp Controller
 # Garron Anderson, 2025
 
-import board
-import math
+
 import os
-import pwmio
 import random
 import time
-from analogio import AnalogIn
-import wifi
-import adafruit_requests
+
 import adafruit_connection_manager
+import adafruit_requests
+import board
+import pwmio
+import wifi
+from analogio import AnalogIn
 
 from EzLED import LED
 
@@ -44,6 +45,16 @@ _error_counter = 0
 
 
 def get_status():
+    """Get printer status.
+
+    Gets the status of the printer from OctoPrint.
+
+    Args:
+        None.
+
+    Returns:
+        str: The status as a string (this avoids magic numbers).
+    """
     global _time_print_finished, _was_printing, _last_print_time_left, _error_counter
 
     try:
@@ -205,10 +216,6 @@ last_led = time.monotonic()
 brightness = BRIGHT
 status = IDLE
 new_status = IDLE
-
-gamma = 2.2
-
-gamma_255 = 256 ** (1 - gamma)
 
 mode = 0
 
