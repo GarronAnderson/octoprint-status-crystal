@@ -67,8 +67,11 @@ def get_status():
                 status_flags = status["state"]["flags"]
             except KeyError:  # this means we're in an error state
                 return ERROR
-    except gaierror:
-        return CONN_ERROR
+    except Exception as e:
+        if e.errno == -2:  # it's a gaierror, we can't find the printer
+            return CONN_ERROR
+        else:
+            raise e  # go ahead and crash
 
     with requests.get(
         OCTOPRINT_URL + "/api/job",
@@ -146,19 +149,19 @@ def get_status():
 
 raw_red = pwmio.PWMOut(board.GP2)
 raw_grn = pwmio.PWMOut(board.GP3)
-raw_wht = pwmio.PWMOut(board.GP5)
 raw_ylw = pwmio.PWMOut(board.GP4)
+raw_wht = pwmio.PWMOut(board.GP5)
 raw_blu = pwmio.PWMOut(board.GP6)
 
-raw_LEDs = [raw_red, raw_grn, raw_wht, raw_ylw, raw_blu]
+raw_LEDs = [raw_red, raw_grn, raw_ylw, raw_wht, raw_blu]
 
 for led in raw_LEDs:
     led.duty_cycle = 0
 
 red = LED(raw_red)
 grn = LED(raw_grn)
-wht = LED(raw_wht)
 ylw = LED(raw_ylw)
+wht = LED(raw_wht)
 blu = LED(raw_blu)
 
 LEDs = [red, grn, wht, ylw, blu]
